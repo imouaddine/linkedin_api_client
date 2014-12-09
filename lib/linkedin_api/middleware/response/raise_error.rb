@@ -1,0 +1,32 @@
+require 'linkedin_api/error'
+
+module LinkedinApi
+  module Middleware
+    module Response
+      class RaiseError < Faraday::Response::RaiseError
+
+        def call(env)
+          super
+        rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed => e
+          raise Error::NetworkError.new(e, env)
+        end
+
+        def on_complete(env)
+          case env[:status]
+            when 401
+              raise Error::UnauthorizedError.new(env)
+            when 404
+              raise Error::RecordNotFound.new(env)
+            when 403
+              raise Error::AccessDenied.new(env)
+            when 400...600
+              raise Error::NetworkError.new(env)
+          end
+        end
+      end
+    end
+  end
+end
+
+
+
