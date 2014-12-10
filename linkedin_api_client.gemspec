@@ -24,10 +24,12 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "coveralls"
 
 
+
   spec.add_dependency "faraday", ">= 0.8"
   spec.add_dependency "hashie"
   spec.add_dependency "json"
   spec.add_dependency "oauth2"
+  spec.add_dependency "activesupport"
 
 
 end

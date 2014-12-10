@@ -4,7 +4,7 @@ module LinkedinApi
   module Middleware
     # @private
     module Response
-      class Mashify < Faraday::Response::Middleware
+      class Json < Faraday::Response::Middleware
 
         dependency do
           require 'json'
@@ -15,7 +15,7 @@ module LinkedinApi
           body = env[:body]
           unless body.strip.empty?
             body = ::JSON.parse(body)
-            env[:body] = Hashie::Mash.new(body)
+            env[:body] = body
           end
         end
       end
